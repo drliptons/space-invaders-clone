@@ -1,6 +1,7 @@
+<div id="top"></div>
 # Alien Invaders
 
-![image](images/space-invaders_preview.png)
+![image](images/alien-invaders-preview.png)
 
 <!-- TABLE OF CONTENTS -->
 <details>
