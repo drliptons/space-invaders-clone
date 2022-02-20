@@ -4,10 +4,19 @@ import pygame
 import settings
 from laser import Laser
 
+import sys
+import os
+
 
 class Alien(pygame.sprite.Sprite):
     def __init__(self, x, y, alien_type):
         pygame.sprite.Sprite.__init__(self)
+
+        if getattr(sys, 'frozen', False) and hasattr(sys, 'MEIPASS'):
+            application_dir = sys._MEIPASS
+        else:
+            application_dir = os.path.dirname(os.path.abspath(__file__))
+
         # Set alien position
         self.x = x
         self.y = y
@@ -15,7 +24,7 @@ class Alien(pygame.sprite.Sprite):
         self.type = alien_type
         self.frame = 0
         self.animation_speed = 15
-        self.image = pygame.image.load('images/Aliens.png')  # load full image sprite
+        self.image = pygame.image.load(os.path.join(application_dir, 'images/Aliens.png'))  # load full image sprite
         self.sprite_size = 16  # size of a single sprite
         # Set sprite position for collider
         self.rect = self.image.get_rect()

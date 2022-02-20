@@ -1,10 +1,19 @@
 import pygame
 import settings
 
+import sys
+import os
+
 
 class Explosion:
     def __init__(self, x, y):
-        self.image = pygame.image.load('images/explosion.png')
+
+        if getattr(sys, 'frozen', False) and hasattr(sys, 'MEIPASS'):
+            application_dir = sys._MEIPASS
+        else:
+            application_dir = os.path.dirname(os.path.abspath(__file__))
+
+        self.image = pygame.image.load(os.path.join(application_dir, 'images/explosion.png'))
         self.x = x
         self.y = y
         self.frame_x = 3

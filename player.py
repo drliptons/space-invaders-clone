@@ -6,11 +6,20 @@ from pygame.locals import *
 from bullet import Bullet
 import settings
 
+import sys
+import os
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, screen, pos_x, pos_y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('images/Ship.png')
+
+        if getattr(sys, 'frozen', False) and hasattr(sys, 'MEIPASS'):
+            application_dir = sys._MEIPASS
+        else:
+            application_dir = os.path.dirname(os.path.abspath(__file__))
+
+        self.image = pygame.image.load(os.path.join(application_dir, 'images/Ship.png'))
         self.screen = screen
         self.x = pos_x
         self.y = pos_y
@@ -27,12 +36,13 @@ class Player(pygame.sprite.Sprite):
         self.bullets = []
 
         # Player status bar
-        self.font = pygame.font.SysFont('fonts/editundo.ttf', 25)
+        self.font = os.path.join(application_dir, 'fonts/editundo.ttf')
+        self.font = pygame.font.SysFont(self.font, 25)
         self.lives = 3
         self.score = 0
 
         # Sound
-        self.shoot_sound = pygame.mixer.Sound('sounds/shoot.wav')
+        self.shoot_sound = pygame.mixer.Sound(os.path.join(application_dir, 'sounds/shoot.wav'))
 
     def update(self):
         keys = pygame.key.get_pressed()

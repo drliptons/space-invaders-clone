@@ -9,7 +9,7 @@ class Game:
 
         pygame.init()
         self.screen = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption('Space Invaders Clone')
+        pygame.display.set_caption(self.game_name)
         self.current_state = None
         self.game_over = False
 

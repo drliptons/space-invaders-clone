@@ -2,11 +2,20 @@ import pygame
 
 import settings
 
+import sys
+import os
+
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self, x, y, bullet_speed):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('images/Laser.png')
+
+        if getattr(sys, 'frozen', False) and hasattr(sys, 'MEIPASS'):
+            application_dir = sys._MEIPASS
+        else:
+            application_dir = os.path.dirname(os.path.abspath(__file__))
+
+        self.image = pygame.image.load(os.path.join(application_dir, 'images/Laser.png'))
         # Set bullet position
         self.x = x - self.image.get_width() / 2
         self.y = y

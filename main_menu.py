@@ -1,18 +1,26 @@
 import pygame
 import settings
+import sys
+import os
 
 
 class MainMenu:
     def __init__(self, game):
+        if getattr(sys, 'frozen', False) and hasattr(sys, 'MEIPASS'):
+            application_dir = sys._MEIPASS
+        else:
+            application_dir = os.path.dirname(os.path.abspath(__file__))
+
+        self.font_path = os.path.join(application_dir, 'fonts/editundo.ttf')
         self.game = game
         self.screen = game.screen
-        self.font = pygame.font.Font('fonts/editundo.ttf', 80)
         # Title text
+        self.font = pygame.font.Font(self.font_path, 80)
         self.title = self.font.render('ALIEN INVADERS', True, settings.TEXT_COLOR)
         self.title_position = ((self.screen.get_width() - self.title.get_width()) / 2,
                                (self.screen.get_height() - self.title.get_height()) / 3)
         # Credit text
-        self.creator_font = pygame.font.Font('fonts/editundo.ttf', 20)
+        self.creator_font = pygame.font.Font(self.font_path, 20)
         self.creator_text = self.creator_font.render('MADE BY: DRLIPTONS', True, settings.TEXT_COLOR)
         self.creator_position = (self.screen.get_width() - self.creator_text.get_width() - 10,
                                  self.screen.get_height() - self.creator_text.get_height() - 10)
@@ -30,7 +38,7 @@ class MainMenu:
         self.button_over_color = (225, 255, 220)
         self.button_width = 200
         self.button_height = 30
-        self.button_font = pygame.font.SysFont('fonts/editundo.ttf', 25)
+        self.button_font = pygame.font.SysFont(self.font_path, 25)
 
         # Set start button
         self.start_button_rect = [(self.screen.get_width() - self.button_width) / 2,
@@ -49,7 +57,7 @@ class MainMenu:
         self.quit_button_text = self.button_font.render('QUIT', True, settings.BUTTON_TEXT_COLOR)
 
         # Music
-        pygame.mixer.music.load('sounds/bg.mp3')
+        pygame.mixer.music.load(os.path.join(application_dir, 'sounds/bg.mp3'))
         pygame.mixer.music.play(-1, 0, 0)
 
     def update(self, events):

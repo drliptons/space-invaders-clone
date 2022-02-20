@@ -6,13 +6,23 @@ from alien import Alien
 import settings
 from explosion import Explosion
 
+import sys
+import os
+
 
 class GamePlay:
     def __init__(self, screen):
         self.screen = screen
 
+        if getattr(sys, 'frozen', False) and hasattr(sys, 'MEIPASS'):
+            application_dir = sys._MEIPASS
+        else:
+            application_dir = os.path.dirname(os.path.abspath(__file__))
+
         self.main_menu = None
-        self.button_font = pygame.font.SysFont('fonts/editundo.ttf', 25)
+
+        self.font = os.path.join(application_dir, 'fonts/editundo.ttf')
+        self.button_font = pygame.font.SysFont(self.font, 25)
 
         # Game states
         self.has_play_game_over_sound = False
@@ -61,20 +71,20 @@ class GamePlay:
         self.explosions = []
 
         # Game over text
-        self.font_won = pygame.font.Font('fonts/editundo.ttf', 80)
+        self.font_won = pygame.font.Font(self.font, 80)
         self.won_text = self.font_won.render('YOU WON', True, settings.TEXT_COLOR)
         self.won_text_position = ((screen.get_width() - self.won_text.get_width()) / 2,
                                   (screen.get_height() - self.won_text.get_height()) / 3)
 
-        self.font_lost = pygame.font.Font('fonts/editundo.ttf', 80)
+        self.font_lost = pygame.font.Font(self.font, 80)
         self.lost_text = self.font_lost.render('YOU LOST', True, settings.TEXT_COLOR)
         self.lost_text_position = ((screen.get_width() - self.lost_text.get_width()) / 2,
                                    (screen.get_height() - self.lost_text.get_height()) / 3)
 
         # Sounds
-        self.alien_killed_sound = pygame.mixer.Sound('sounds/alien_killed.wav')
-        self.you_won_sound = pygame.mixer.Sound('sounds/you_won.wav')
-        self.you_lost_sound = pygame.mixer.Sound('sounds/ship_explode.wav')
+        self.alien_killed_sound = pygame.mixer.Sound(os.path.join(application_dir, 'sounds/alien_killed.wav'))
+        self.you_won_sound = pygame.mixer.Sound(os.path.join(application_dir, 'sounds/you_won.wav'))
+        self.you_lost_sound = pygame.mixer.Sound(os.path.join(application_dir, 'sounds/ship_explode.wav'))
 
     def update(self, events):
         for event in events:

@@ -1,9 +1,18 @@
 import pygame
 import settings
 
+import sys
+import os
+
 
 class Credit:
     def __init__(self, screen):
+
+        if getattr(sys, 'frozen', False) and hasattr(sys, 'MEIPASS'):
+            application_dir = sys._MEIPASS
+        else:
+            application_dir = os.path.dirname(os.path.abspath(__file__))
+
         self.screen = screen
         self.main_menu = None
 
@@ -11,7 +20,9 @@ class Credit:
         self.start_pos = 0
 
         # Set back button
-        self.button_font = pygame.font.SysFont('fonts/editundo.ttf', 25)
+        self.font_path = os.path.join(application_dir, 'fonts/editundo.ttf')
+        self.font = pygame.font.Font(self.font_path, 20)
+        self.button_font = pygame.font.SysFont(self.font_path, 25)
         self.button_color = (62, 250, 25)
         self.button_over_color = (225, 255, 220)
         self.back_button_width = 100
@@ -24,11 +35,11 @@ class Credit:
         self.mouse_x, self.mouse_y = (0, 0)
 
         # Set credit text
-        self.font = pygame.font.Font('fonts/editundo.ttf', 20)
-        self.text = ['SPACE INVADERS', 'AN ORIGINAL TITLE OF', '',
+        self.text_font = pygame.font.Font(self.font_path, 20)
+        self.text = ['FROM THE ORIGINAL TITLE', 'SPACE INVADERS', '',
                      'TAITO CORPORATION', '',
                      '', '',
-                     'SPACE INVADERS CLONE',
+                     'ALIEN INVADERS',
                      'BY',
                      'DRLIPTONS', '',
                      '', '',
@@ -53,8 +64,8 @@ class Credit:
         self.credit_text_height = 0
 
         # Production text
-        self.pro_text_1_font = pygame.font.Font('fonts/editundo.ttf', 60)
-        self.pro_text_2_font = pygame.font.Font('fonts/editundo.ttf', 120)
+        self.pro_text_1_font = pygame.font.Font(self.font_path, 60)
+        self.pro_text_2_font = pygame.font.Font(self.font_path, 120)
         self.pro_text_1 = self.pro_text_1_font.render('A PRODUCT OF', True, settings.TEXT_COLOR)
         self.pro_text_2 = self.pro_text_2_font.render('DRLIPTONS', True, settings.TEXT_COLOR)
         self.pro_text_1_pos = ((self.screen.get_width() - self.pro_text_1.get_width()) / 2,
@@ -81,7 +92,7 @@ class Credit:
 
         if self.start_pos >= (self.credit_text_height + screen.get_height()) * -1:
             for row in self.text:
-                text = self.font.render(row, True, settings.TEXT_COLOR)
+                text = self.text_font.render(row, True, settings.TEXT_COLOR)
                 text_position = ((self.screen.get_width() - text.get_width()) / 2, self.screen.get_height() + n)
                 screen.blit(text, text_position)
                 n += text.get_height() + y

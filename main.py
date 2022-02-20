@@ -4,7 +4,7 @@ from game_play import GamePlay
 from credit import Credit
 
 
-game = Game('SPACE INVADERS', 800, 800)
+game = Game('ALIEN INVADERS', 800, 800)
 main_menu = MainMenu(game)
 game_play = GamePlay(game.screen)
 credit = Credit(game.screen)

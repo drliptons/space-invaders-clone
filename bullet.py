@@ -1,10 +1,18 @@
 import pygame
+import sys
+import os
 
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, bullet_speed):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load('images/Bullet.png')
+
+        if getattr(sys, 'frozen', False) and hasattr(sys, 'MEIPASS'):
+            application_dir = sys._MEIPASS
+        else:
+            application_dir = os.path.dirname(os.path.abspath(__file__))
+
+        self.image = pygame.image.load(os.path.join(application_dir, 'images/Bullet.png'))
 
         # Set bullet position
         self.x = x - self.image.get_width() / 2
